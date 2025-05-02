@@ -116,7 +116,7 @@ layer1 = NdLinear(input_dims=(32,), hidden_size=(64,))
 
 ## NdLinearGated
 
-<img src="NdLinearGated.png" alt="NdLinearGated" width="200">
+<img src="NdLinearGated.png" alt="NdLinearGated" width="100">
 
 NdLinearGated extends the core functionality of NdLinear by incorporating sophisticated gating mechanisms to control information flow. This allows models to selectively transform input dimensions, enhancing representational power and efficiency.
 

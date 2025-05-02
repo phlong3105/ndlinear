@@ -87,7 +87,6 @@ def test_ndlinear_gated_forward_topk():
     
     x = torch.randn(batch_size, *input_dims)
     
-    # First call should compute topk modes
     assert model.topk_modes is None
     assert model.first_batch_processed is False
     
@@ -166,7 +165,6 @@ def test_ndlinear_gated_repr():
 def test_ndlinear_gated_type_hints():
     model = NdLinearGated((8, 16), (16, 32))
     
-    # Check __init__ type hints
     init_hints = get_type_hints(model.__init__)
     assert init_hints['input_dims'] == tuple
     assert init_hints['hidden_size'] == tuple
@@ -176,16 +174,13 @@ def test_ndlinear_gated_type_hints():
     assert init_hints['gated_modes'] == Literal["all", "first", "topk"]
     assert init_hints['return'] == type(None)
     
-    # Check forward type hints
     forward_hints = get_type_hints(model.forward)
     assert forward_hints['X'] == torch.Tensor
     assert forward_hints['return'] == torch.Tensor
     
-    # Check _compute_topk_modes type hints
     topk_hints = get_type_hints(model._compute_topk_modes)
     assert topk_hints['X'] == torch.Tensor
     assert topk_hints['return'] == list
     
-    # Check __repr__ type hints
     repr_hints = get_type_hints(model.__repr__)
     assert repr_hints['return'] == str 
