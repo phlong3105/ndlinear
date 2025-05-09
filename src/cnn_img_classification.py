@@ -1,6 +1,6 @@
 """
 Ensemble AI
-Date: Mar 24, 2025
+Date: May 09, 2025
 
 This script trains a CNN (NdLinear) model on the CIFAR-10 dataset and evaluates its performance.
 
@@ -9,9 +9,11 @@ Usage Example:
 python src/cnn_img_classification.py \
 --batch_size 64 \
 --learning_rate 0.001 \
---epochs 20 \
+--epochs 40 \
 --data_dir './data' \
 --output_file 'training_results.pdf'
+
+to run the baseline experiment, add --baseline
 """
 
 import argparse
@@ -32,10 +34,11 @@ def get_args():
     parser = argparse.ArgumentParser(description="HyperMLP Training Script")
     parser.add_argument('--batch_size', type=int, default=64, help='Batch size for training and testing')
     parser.add_argument('--learning_rate', type=float, default=0.001, help='Learning rate for the optimizer')
-    parser.add_argument('--epochs', type=int, default=20, help='Number of training epochs')
+    parser.add_argument('--epochs', type=int, default=40, help='Number of training epochs')
     parser.add_argument('--data_dir', type=str, default='./data', help='Directory for the CIFAR-10 dataset')
     parser.add_argument('--output_file', type=str, default='training_results.pdf',
                         help='Output file for saving training results')
+    parser.add_argument('--baseline', action='store_true',default=False)
 
     return parser.parse_args()
 
@@ -72,25 +75,71 @@ def load_data(transform, data_dir, batch_size):
 
     return trainloader, testloader
 
-class HyperVision(nn.Module):
-    def __init__(self, input_shape, hidden_size):
-        super(HyperVision, self).__init__()
-        self.conv1 = nn.Conv2d(3, 32, kernel_size=3, padding=1)
-        self.conv2 = nn.Conv2d(32, 64, kernel_size=3, padding=1)
-        self.ndlinear = NdLinear((64, 8, 8), hidden_size)
-        final_dim = math.prod(hidden_size)
-        self.fc_out = nn.Linear(final_dim, 100)
-        self.relu = nn.ReLU()
-        self.pool = nn.MaxPool2d(2, 2)
+class CNN(nn.Module):
+    def __init__(self, num_classes=10):
+        super(CNN, self).__init__()
+        self.cnn_conv1 = nn.Conv2d(3, 32, kernel_size=3, padding=1)
+        self.cnn_bn1 = nn.BatchNorm2d(32)
+
+        self.cnn_conv2 = nn.Conv2d(32, 64, kernel_size=3, padding=1)
+        self.cnn_bn2 = nn.BatchNorm2d(64)
+
+        self.cnn_dropout2d = nn.Dropout2d(0.2)
+
+        self.cnn_fc1 = nn.Linear(64 * 8 * 8, 256)
+        self.cnn_dropout1 = nn.Dropout(0.3)
+
+        self.cnn_fc2 = nn.Linear(256, num_classes)
+
+        self.cnn_relu = nn.ReLU()
+        self.cnn_pool = nn.MaxPool2d(2, 2)
 
     def forward(self, x):
-        x = self.pool(self.relu(self.conv1(x)))
-        x = self.pool(self.relu(self.conv2(x)))
-        x = self.ndlinear(x)
+        x = self.cnn_pool(self.cnn_relu(self.cnn_bn1(self.cnn_conv1(x))))
+        x = self.cnn_dropout2d(x)
+
+        x = self.cnn_pool(self.cnn_relu(self.cnn_bn2(self.cnn_conv2(x))))
+        x = self.cnn_dropout2d(x)
+
         x = x.view(x.shape[0], -1)
-        x = self.fc_out(self.relu(x))
+        x = self.cnn_dropout1(self.cnn_relu(self.cnn_fc1(x)))
+        x = self.cnn_fc2(x)
+
         return x
 
+class HyperVision(nn.Module):
+    def __init__(self, input_shape, hidden_size, num_classes=10):
+        super(HyperVision, self).__init__()
+        self.hyper_conv1 = nn.Conv2d(3, 32, kernel_size=3, padding=1)
+        self.hyper_bn1 = nn.BatchNorm2d(32)
+
+        self.hyper_conv2 = nn.Conv2d(32, 64, kernel_size=3, padding=1)
+        self.hyper_bn2 = nn.BatchNorm2d(64)
+
+        self.hyper_dropout2d = nn.Dropout2d(0.2)
+
+        self.hyper_ndlinear = NdLinear((64, 8, 8), hidden_size)
+        final_dim = math.prod(hidden_size)
+
+        self.hyper_fc_out = nn.Linear(final_dim, num_classes)
+        self.hyper_dropout = nn.Dropout(0.3)
+
+        self.hyper_relu = nn.ReLU()
+        self.hyper_pool = nn.MaxPool2d(2, 2)
+
+    def forward(self, x):
+        x = self.hyper_pool(self.hyper_relu(self.hyper_bn1(self.hyper_conv1(x))))
+        x = self.hyper_dropout2d(x)
+
+        x = self.hyper_pool(self.hyper_relu(self.hyper_bn2(self.hyper_conv2(x))))
+        x = self.hyper_dropout2d(x)
+
+        x = self.hyper_ndlinear(x)
+        x = x.view(x.shape[0], -1)
+        x = self.hyper_dropout(self.hyper_fc_out(self.hyper_relu(x)))
+
+        return x
+    
 def initialize_model(device):
     hyper_vision = HyperVision((3, 32, 32), (64, 8, 8)).to(device)
     return hyper_vision
@@ -171,7 +220,10 @@ def main():
     trainloader, testloader = load_data(transform, args.data_dir, args.batch_size)
 
     # Initialize model and optimizer
-    hyper_vision = initialize_model(device)
+    if args.baseline:
+        hyper_vision = CNN().to(device)
+    else:
+        hyper_vision = initialize_model(device)
     optimizer_hyper = get_optimizer(hyper_vision, args.learning_rate)
 
     criterion = nn.CrossEntropyLoss()
