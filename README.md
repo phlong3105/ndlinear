@@ -32,13 +32,13 @@ Upload any model – get back a smaller, faster version.
 No accuracy loss.
 
 - 🔁 Automatically swaps layers and tunes hyperparams
-- 📉 Shrinks model size (parameter count) by up to 8x with negligable accuracy loss
+- 📉 Shrinks model size (parameter count) by up to 8x
 - 🛠 Tailor uploaded models to your **hardware & finetuning constraints**
 - 🧰 Export to ONNX, TensorRT, SNPE, and more
 - 💡 Designed to work alongside other compression techniques(pruning, quantization, distillation) 
 - 🎁 Includes **10M free credits** on signup
 
-👉 [Try Ensemble →](https://app.ensemblecore.ai/signup)  
+👉 [Try the Ensemble Platform for free→](https://app.ensemblecore.ai/signup)  
 📺 [Or see a demo →](https://ensemblecore.ai)
 
 ---
