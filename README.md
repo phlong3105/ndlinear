@@ -48,6 +48,8 @@ No accuracy loss.
 NdLinear preserves the multi-dimensional structure of data, enhancing representational power with fewer parameters.  
 Rather than flattening tensors, it transforms them across a structured set of vector spaces—capturing dependencies standard fully connected layers discard.
 
+👉 [Link to paper→](https://arxiv.org/pdf/2503.17353)
+
 
 ## Key Features
 
