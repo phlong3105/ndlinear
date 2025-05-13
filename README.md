@@ -3,15 +3,14 @@
   <br /> <br / >
 </p>
 
-# NdLinear
-a drop-in pytorch module to replace the standard linear layer in neural networks by [Ensemble AI](https://ensemblecore.ai).
+# NdLinear: The next-gen replacement for the linear layer
+A drop-in pytorch module to replace the standard linear layer in neural networks by [Ensemble AI](https://ensemblecore.ai).
 
 
 **Ensemble Platform**  
 Want smaller, faster models **without** accuracy loss? Tried pruning or quantization and hit a wall?
 
-👉 [Try the full Ensemble platform →](https://app.ensemblecore.ai/signup)  
-_(10M free credits on signup)_
+👉 [Try the full Ensemble platform →](https://app.ensemblecore.ai/signup)  _(10M free credits on signup)_
 
 ---
 
