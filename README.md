@@ -160,10 +160,6 @@ NdLinear is versatile and can be used in:
 - **Text Classification:** Launch `txt_classify_bert.py`.
 - **Vision Transformers:** Execute `vit_distill.py`.
 
-## Explore and Discover
-
-We invite you to visit [Ensemble AI](https://ensemblecore.ai/) and experience the innovative capabilities we offer. 
-Dive in, explore, and see how NdLinear can make a difference in your projects. We're excited to have you try it out!
 
 ## Community Engagement
 
