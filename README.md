@@ -3,14 +3,52 @@
   <br /> <br / >
 </p>
 
-# NdLinear: next-gen replacement for nn.Linear
+# NdLinear
+a drop-in pytorch module to replace the standard linear layer in neural networks by [Ensemble AI](https://ensemblecore.ai).
 
-## Overview
 
-You have found **NdLinear** by [Ensemble AI](https://ensemblecore.ai/). We proudly present this PyTorch module designed as an innovative linear transformation layer. 
-It preserves the multi-dimensional structure of data, enhances representational power, and is parameter-efficient. 
-Unlike conventional embedding layers, NdLinear transforms tensors across a collection of vector spaces, 
-capturing multivariate structure and dependencies typically lost in standard fully connected layers.
+**Ensemble Platform**  
+Want smaller, faster models **without** accuracy loss? Tried pruning or quantization and hit a wall?
+
+👉 [Try the full Ensemble platform →](https://app.ensemblecore.ai/signup)  
+_(10M free credits on signup)_
+
+---
+
+## NdLinear
+
+A PyTorch module that replaces the standard linear layer in neural networks.
+
+- ✅ Plug-and-play replacement for `nn.Linear`
+- 📦 Lightweight, parameter-efficient
+- 🧠 Preserves multivariate structure natively
+
+> **Example**: A 130M parameter DiT model using NdLinear outperformed a 457M baseline on the FID benchmark for ImageNet100
+
+---
+
+## Ensemble Platform (powered by NdLinear)
+
+Upload any model – get back a smaller, faster version.  
+No accuracy loss.
+
+- 🔁 Automatically swaps layers and tunes hyperparams
+- 📉 Shrinks model size (parameter count) by up to 8x with negligable accuracy loss
+- 🛠 Tailor uploaded models to your **hardware & finetuning constraints**
+- 🧰 Export to ONNX, TensorRT, SNPE, and more
+- 💡 Designed to work alongside other compression techniques(pruning, quantization, distillation) 
+- 🎁 Includes **10M free credits** on signup
+
+👉 [Try Ensemble →](https://app.ensemblecore.ai/signup)  
+📺 [Or see a demo →](https://ensemblecore.ai)
+
+---
+
+## 🧬 Technical Overview
+
+NdLinear preserves the multi-dimensional structure of data, enhancing representational power with fewer parameters.  
+Rather than flattening tensors, it transforms them across a structured set of vector spaces—capturing dependencies standard fully connected layers discard.
+
 
 ## Key Features
 
